@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CivicConnect | Login</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --background: hsl(210, 25%, 98%);
+      --foreground: hsl(215, 25%, 15%);
+      --primary: hsl(215, 80%, 45%);
+      --primary-light: hsl(215, 80%, 55%);
+      --muted: hsl(215, 15%, 45%);
+      --card: hsl(0, 0%, 100%);
+      --accent: hsl(38, 92%, 50%);
+      --accent-dark: hsl(25, 90%, 45%);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--background);
+      color: var(--foreground);
+      min-height: 100vh;
+      padding-top: 90px;
+    }
+
+    h1,h2,h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid hsl(214, 20%, 90%);
+      z-index: 100;
+      padding: 1rem 0;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      text-decoration: none;
+      color: var(--foreground);
+      font-weight: 800;
+      font-size: 1.25rem;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    /* Login Section */
+    .login-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 120px);
+      padding: 2rem 1rem;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      background: var(--card);
+      padding: 2.5rem;
+      border-radius: 1.75rem;
+      border: 1px solid hsl(214, 20%, 90%);
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
+      animation: slideUp 0.6s ease;
+    }
+
+    .login-card h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .login-card p {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 0.75rem;
+      border: 2px solid hsl(214, 20%, 90%);
+      font-size: 0.95rem;
+      transition: border 0.2s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .btn-primary {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.85rem;
+      border-radius: 0.75rem;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      box-shadow: 0 6px 18px hsla(38, 92%, 50%, 0.45);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px hsla(38, 92%, 50%, 0.55);
+    }
+
+    .extra-links {
+      margin-top: 1.5rem;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    .extra-links a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .extra-links a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">🏛️</div>
+        CivicConnect Amravati
+      </a>
+    </div>
+  </header>
+
+  <!-- Login Section -->
+  <section class="login-section">
+    <div class="login-card">
+      <h2>Welcome Back</h2>
+      <p>Login to track & manage your civic complaints</p>
+
+      <form id="loginForm">
+
+  <!-- USER ID -->
+  <div class="form-group">
+    <label>Mobile Number / Email</label>
+    <input type="text" id="userId" placeholder="Enter mobile or email" required>
+  </div>
+
+  <!-- PASSWORD -->
+  <div class="form-group">
+    <label>Password</label>
+    <input type="password" id="password" placeholder="Enter password" required>
+    <small id="passwordError" style="color:red; display:none;">
+      Password must be at least 8 characters, include a number & symbol
+    </small>
+  </div>
+
+  <!-- SEND OTP -->
+  <button type="button" class="btn-primary" onclick="sendOTP()">
+    Send OTP
+  </button>
+
+  <!-- OTP FIELD (HIDDEN INITIALLY) -->
+  <div class="form-group" id="otpSection" style="display:none; margin-top:1rem;">
+    <label>Enter OTP</label>
+    <input type="text" id="otpInput" placeholder="Enter 6-digit OTP">
+  </div>
+
+  <!-- VERIFY OTP -->
+  <button type="button" class="btn-primary" id="verifyBtn"
+    style="display:none;" onclick="verifyOTP()">
+    Verify & Login
+  </button>
+
+</form>
+
+
+      <div class="extra-links">
+        <p><a href="#">Forgot Password?</a></p>
+        <p style="margin-top: 0.5rem;">New Citizen? <a href="#">Register Here</a></p>
+      </div>
+    </div>
+  </section>
+
+
+
+
+  <script>
+  let generatedOTP = null;
+
+  // PASSWORD VALIDATION
+  function isValidPassword(password) {
+    const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$/;
+    return regex.test(password);
+  }
+
+  // SEND OTP
+  function sendOTP() {
+    const userId = document.getElementById("userId").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const errorText = document.getElementById("passwordError");
+
+    if (!userId) {
+      alert("Please enter Mobile Number or Email");
+      return;
+    }
+
+    if (!isValidPassword(password)) {
+      errorText.style.display = "block";
+      return;
+    } else {
+      errorText.style.display = "none";
+    }
+
+    // Generate OTP
+    generatedOTP = Math.floor(100000 + Math.random() * 900000);
+
+    // DEMO PURPOSE (in real app → SMS / Email API)
+    alert("Your OTP is: " + generatedOTP);
+
+    document.getElementById("otpSection").style.display = "block";
+    document.getElementById("verifyBtn").style.display = "block";
+  }
+
+  // VERIFY OTP
+  function verifyOTP() {
+    const enteredOTP = document.getElementById("otpInput").value.trim();
+
+    if (enteredOTP == generatedOTP) {
+      alert("Login Successful 🎉");
+
+      // Redirect after login
+      window.location.href = "dashboard.html"; // or index.html
+    } else {
+      alert("Invalid OTP ❌ Please try again");
+    }
+  }
+</script>
+
+
+
+
+</body>
+</html>

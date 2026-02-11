@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Report Issue | CivicConnect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+   :root {
+  --accent: #f59e0b;
+  --accent-dark: #d97706;
+  --accent-soft: rgba(245, 158, 11, 0.12);
+
+  --bg-main: linear-gradient(
+    135deg,
+    #fff7ed 0%,
+    #ffedd5 40%,
+    #fffaf0 100%
+  );
+
+  --card: rgba(255, 255, 255, 0.85);
+  --text: #1f2937;
+  --muted: #6b7280;
+
+  --radius: 16px;
+}
+
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+   body {
+  margin: 0;
+  background: var(--bg-main);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+
+
+
+    .camera-btn {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  background: var(--primary);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+       /* Orange gradient button (same as Submit Issue) */
+.camera-btn,
+input[type="file"]::file-selector-button {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px hsla(38, 92%, 50%, 0.4);
+  transition: all 0.2s ease;
+}
+
+/* Hover effect */
+.camera-btn:hover,
+input[type="file"]::file-selector-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px hsla(38, 92%, 50%, 0.5);
+}
+
+/* File input spacing */
+input[type="file"] {
+  width: 100%;
+  margin-top: 8px;
+}
+
+
+video {
+  margin-top: 10px;
+  width: 100%;
+  max-width: 320px;
+  border-radius: 12px;
+  display: none;
+}
+
+canvas {
+  display: none;
+}
+
+
+    /* Header */
+    header {
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.9),
+    rgba(217, 119, 6, 0.9)
+  );
+  padding: 16px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px rgba(217, 119, 6, 0.35);
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  color: white;
+}
+
+
+    /* Header buttons – white style */
+.header-btn {
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: white;
+  color: var(--accent-dark);
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 10px;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+.header-btn:hover {
+  background: #f9fafb;
+  transform: translateY(-1px);
+}
+
+/* Keep Report Issue same as Home (white) */
+.report-btn {
+  background: white;
+  color: var(--accent-dark);
+}
+
+
+
+    .report-btn {
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    }
+
+    /* Page Layout */
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .page-title {
+  font-size: 32px;
+  font-weight: 800;
+  background: linear-gradient(
+    135deg,
+    var(--accent),
+    var(--accent-dark)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.page-subtitle {
+  color: #92400e;
+}
+
+
+.card {
+  background: var(--card);
+  padding: 32px;
+  border-radius: var(--radius);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  box-shadow:
+    0 20px 40px rgba(245, 158, 11, 0.15),
+    inset 0 0 0 1px rgba(255,255,255,0.4);
+}
+
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+   input, select, textarea {
+  width: 100%;
+  padding: 13px;
+  border-radius: 12px;
+  border: 1.5px solid #fde68a;
+  background: white;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+
+    textarea {
+      resize: none;
+    }
+
+    .char-count {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: right;
+      margin-top: 4px;
+    }
+
+    .row {
+      display: flex;
+      gap: 20px;
+    }
+
+    .row .form-group {
+      flex: 1;
+    }
+
+    .toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+    }
+
+    .toggle input {
+      width: auto;
+    }
+
+    .image-preview {
+      margin-top: 10px;
+      max-width: 200px;
+      border-radius: 10px;
+      display: none;
+    }
+.submit-btn,
+.camera-btn,
+input[type="file"]::file-selector-button {
+  background: linear-gradient(
+    135deg,
+    var(--accent),
+    var(--accent-dark)
+  );
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(245, 158, 11, 0.45);
+  transition: all 0.25s ease;
+}
+
+.submit-btn {
+  width: 100%;
+  display: block;
+  margin-top: 20px;
+}
+
+
+.submit-btn:hover,
+.camera-btn:hover,
+input[type="file"]::file-selector-button:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 18px 35px rgba(245, 158, 11, 0.55);
+}
+
+
+    .success {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+      color: green;
+      font-weight: 600;
+    }
+
+    @media(max-width: 768px) {
+      .row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">CivicConnect Amravati</div>
+  <div>
+    <a href="sample.html" class="header-btn">Home</a>
+    
+  </div>
+</header>
+
+<div class="container">
+  <h1 class="page-title">Report a Civic Issue</h1>
+  <p class="page-subtitle">
+    Help us improve city services by reporting issues in your area.
+  </p>
+
+  <div class="card">
+    <form id="issueForm">
+
+      <div class="form-group">
+        <label>Issue Category</label>
+        <select required>
+          <option value="">Select issue type</option>
+          <option>Garbage / Sanitation</option>
+          <option>Water Leakage / Shortage</option>
+          <option>Potholes / Road Damage</option>
+          <option>Streetlight Not Working</option>
+          <option>Drainage / Sewage</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <label>Location</label>
+          <input type="text" id="location" placeholder="Auto-detect or enter location" required>
+        </div>
+
+        <div class="form-group">
+          <label>Priority</label>
+          <select required>
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+            <option>Emergency</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="desc" rows="4" maxlength="300" required></textarea>
+        <div class="char-count" id="count">0 / 300</div>
+      </div>
+
+      
+
+      <div class="form-group">
+  <label>Upload or Capture Photo</label>
+
+  <input type="file" accept="image/*" id="photo" required>
+
+  <button type="button" id="openCamera" class="camera-btn">
+    📷 Take Live Photo
+  </button>
+
+  <video id="camera" autoplay playsinline></video>
+  <canvas id="canvas"></canvas>
+
+  <img id="preview" class="image-preview">
+</div>
+
+
+      <div class="form-group toggle">
+        <input type="checkbox" id="anonymous">
+        <label for="anonymous">Submit anonymously</label>
+      </div>
+
+      <button class="submit-btn" type="submit">Submit Issue</button>
+      <div class="success" id="successMsg">
+        ✅ Issue submitted successfully! Tracking ID generated.
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<script>
+  const openCameraBtn = document.getElementById('openCamera');
+  const video = document.getElementById('camera');
+  const canvas = document.getElementById('canvas');
+  const preview = document.getElementById('preview');
+  const photoInput = document.getElementById('photo');
+
+  let stream;
+
+  openCameraBtn.addEventListener('click', async () => {
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      video.srcObject = stream;
+      video.style.display = 'block';
+      openCameraBtn.textContent = "📸 Capture Photo";
+      openCameraBtn.onclick = capturePhoto;
+    } catch (err) {
+      alert("Camera access denied!");
+    }
+  });
+
+  function capturePhoto() {
+    const ctx = canvas.getContext('2d');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    ctx.drawImage(video, 0, 0);
+
+    const imageData = canvas.toDataURL('image/png');
+    preview.src = imageData;
+    preview.style.display = 'block';
+
+    // Stop camera
+    stream.getTracks().forEach(track => track.stop());
+    video.style.display = 'none';
+
+    // Make file input optional once live photo taken
+    photoInput.required = false;
+  }
+
+  // File upload preview still works
+  photoInput.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        preview.src = reader.result;
+        preview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+</script>
+
+
+<script>
+  // Character counter
+  const desc = document.getElementById('desc');
+  const count = document.getElementById('count');
+
+  desc.addEventListener('input', () => {
+    count.textContent = `${desc.value.length} / 300`;
+  });
+
+  // Image preview
+  document.getElementById('photo').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = document.getElementById('preview');
+        img.src = reader.result;
+        img.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Auto location (basic)
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(pos => {
+      document.getElementById('location').value =
+        `Lat: ${pos.coords.latitude.toFixed(4)}, Lng: ${pos.coords.longitude.toFixed(4)}`;
+    });
+  }
+
+  // Submit handler
+  document.getElementById('issueForm').addEventListener('submit', e => {
+    e.preventDefault();
+    document.getElementById('successMsg').style.display = 'block';
+    e.target.reset();
+    document.getElementById('preview').style.display = 'none';
+    count.textContent = "0 / 300";
+  });
+</script>
+
+</body>
+</html>
