@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Report Issue | CivicConnect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #fa8314;
+      --primary-dark: #e7eaf5;
+      --accent: #f59e0b;
+      --accent-dark: #d97706;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .camera-btn {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  background: var(--primary);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+video {
+  margin-top: 10px;
+  width: 100%;
+  max-width: 320px;
+  border-radius: 12px;
+  display: none;
+}
+
+canvas {
+  display: none;
+}
+
+
+    /* Header */
+    header {
+      background: white;
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .header-btn {
+      padding: 10px 18px;
+      border-radius: 10px;
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      margin-left: 10px;
+    }
+
+    .report-btn {
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    }
+
+    /* Page Layout */
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .page-title {
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .page-subtitle {
+      color: var(--muted);
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: var(--card);
+      padding: 30px;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(248, 193, 14, 0.986);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #f8cc7c;
+      outline: none;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    .char-count {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: right;
+      margin-top: 4px;
+    }
+
+    .row {
+      display: flex;
+      gap: 20px;
+    }
+
+    .row .form-group {
+      flex: 1;
+    }
+
+    .toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+    }
+
+    .toggle input {
+      width: auto;
+    }
+
+    .image-preview {
+      margin-top: 10px;
+      max-width: 200px;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .success {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+      color: green;
+      font-weight: 600;
+    }
+
+    @media(max-width: 768px) {
+      .row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">CivicConnect Amravati</div>
+  <div>
+    <a href="index.html" class="header-btn">Home</a>
+    <a href="#" class="header-btn report-btn">Report Issue</a>
+  </div>
+</header>
+
+<div class="container">
+  <h1 class="page-title">Report a Civic Issue</h1>
+  <p class="page-subtitle">
+    Help us improve city services by reporting issues in your area.
+  </p>
+
+  <div class="card">
+    <form id="issueForm">
+
+      <div class="form-group">
+        <label>Issue Category</label>
+        <select required>
+          <option value="">Select issue type</option>
+          <option>Garbage / Sanitation</option>
+          <option>Water Leakage / Shortage</option>
+          <option>Potholes / Road Damage</option>
+          <option>Streetlight Not Working</option>
+          <option>Drainage / Sewage</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <label>Location</label>
+          <input type="text" id="location" placeholder="Auto-detect or enter location" required>
+        </div>
+
+        <div class="form-group">
+          <label>Priority</label>
+          <select required>
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+            <option>Emergency</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="desc" rows="4" maxlength="300" required></textarea>
+        <div class="char-count" id="count">0 / 300</div>
+      </div>
+
+      
+
+      <div class="form-group">
+  <label>Upload or Capture Photo</label>
+
+  <input type="file" accept="image/*" id="photo" required>
+
+  <button type="button" id="openCamera" class="camera-btn">
+    📷 Take Live Photo
+  </button>
+
+  <video id="camera" autoplay playsinline></video>
+  <canvas id="canvas"></canvas>
+
+  <img id="preview" class="image-preview">
+</div>
+
+
+      <div class="form-group toggle">
+        <input type="checkbox" id="anonymous">
+        <label for="anonymous">Submit anonymously</label>
+      </div>
+
+      <button class="submit-btn" type="submit">Submit Issue</button>
+      <div class="success" id="successMsg">
+        ✅ Issue submitted successfully! Tracking ID generated.
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<script>
+  // Character counter
+  const desc = document.getElementById('desc');
+  const count = document.getElementById('count');
+
+  desc.addEventListener('input', () => {
+    count.textContent = `${desc.value.length} / 300`;
+  });
+
+  // Image preview
+  document.getElementById('photo').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = document.getElementById('preview');
+        img.src = reader.result;
+        img.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Auto location (basic)
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(pos => {
+      document.getElementById('location').value =
+        `Lat: ${pos.coords.latitude.toFixed(4)}, Lng: ${pos.coords.longitude.toFixed(4)}`;
+    });
+  }
+
+  // Submit handler
+  document.getElementById('issueForm').addEventListener('submit', e => {
+    e.preventDefault();
+    document.getElementById('successMsg').style.display = 'block';
+    e.target.reset();
+    document.getElementById('preview').style.display = 'none';
+    count.textContent = "0 / 300";
+  });
+</script>
+
+<script>
+  const openCameraBtn = document.getElementById('openCamera');
+  const video = document.getElementById('camera');
+  const canvas = document.getElementById('canvas');
+  const preview = document.getElementById('preview');
+  const photoInput = document.getElementById('photo');
+
+  let stream;
+
+  openCameraBtn.addEventListener('click', async () => {
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      video.srcObject = stream;
+      video.style.display = 'block';
+      openCameraBtn.textContent = "📸 Capture Photo";
+      openCameraBtn.onclick = capturePhoto;
+    } catch (err) {
+      alert("Camera access denied!");
+    }
+  });
+
+  function capturePhoto() {
+    const ctx = canvas.getContext('2d');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    ctx.drawImage(video, 0, 0);
+
+    const imageData = canvas.toDataURL('image/png');
+    preview.src = imageData;
+    preview.style.display = 'block';
+
+    // Stop camera
+    stream.getTracks().forEach(track => track.stop());
+    video.style.display = 'none';
+
+    // Make file input optional once live photo taken
+    photoInput.required = false;
+  }
+
+  // File upload preview still works
+  photoInput.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        preview.src = reader.result;
+        preview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+</script>
+
+
+</body>
+</html>
