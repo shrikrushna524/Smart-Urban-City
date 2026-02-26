@@ -317,6 +317,20 @@ input[type="file"]::file-selector-button:hover {
   <div class="card">
     <form id="issueForm">
 
+
+      
+  <div class="form-group">
+    <label>Name</label>
+    <input type="text" id="name" placeholder="Enter your name" required>
+  </div>
+
+  <div class="form-group">
+    <label>Mobile No</label>
+    <input type="tel" id="mobile" placeholder="Enter mobile number" required>
+  </div>
+
+
+
       <div class="form-group">
         <label>Issue Category</label>
         <select required>
@@ -383,6 +397,20 @@ input[type="file"]::file-selector-button:hover {
     </form>
   </div>
 </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://ibfeegtzehgspswvlyna.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImliZmVlZ3R6ZWhnc3Bzd3ZseW5hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwMTY5ODAsImV4cCI6MjA4NzU5Mjk4MH0.I5CPOxe69SQ3O0qqb5A6Zx-pAWzLmZpXyu97mt9Zvag";
+
+// ✅ Correct initialization
+const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
+</script>
 
 <script>
   const openCameraBtn = document.getElementById('openCamera');
@@ -469,15 +497,93 @@ input[type="file"]::file-selector-button:hover {
     });
   }
 
-  // Submit handler
-  document.getElementById('issueForm').addEventListener('submit', e => {
-    e.preventDefault();
-    document.getElementById('successMsg').style.display = 'block';
-    e.target.reset();
-    document.getElementById('preview').style.display = 'none';
-    count.textContent = "0 / 300";
-  });
 </script>
+
+<script>
+document.getElementById('issueForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const submitBtn = document.querySelector('.submit-btn');
+    submitBtn.textContent = "Submitting...";
+    submitBtn.disabled = true;
+
+    try {
+
+        const name = document.getElementById('name').value;
+        const mobile = document.getElementById('mobile').value;
+        const category = document.querySelector('select').value;
+        const location = document.getElementById('location').value;
+        const priority = document.querySelectorAll('select')[1].value;
+        const description = document.getElementById('desc').value;
+        const anonymous = document.getElementById('anonymous').checked;
+
+        const tracking_id = "CC-" + Date.now();
+
+        let photo_url = null;
+
+        const fileInput = document.getElementById('photo');
+        const file = fileInput.files[0];
+
+        // Upload photo
+        if(file){
+
+            const fileName = tracking_id + "-" + file.name;
+
+            const { data, error } = await supabase.storage
+                .from('complaint-photos')
+                .upload(fileName, file);
+
+            if(error){
+                throw error;
+            }
+
+            const { data: publicUrl } = supabase.storage
+                .from('complaint-photos')
+                .getPublicUrl(fileName);
+
+            photo_url = publicUrl.publicUrl;
+        }
+
+        // Insert complaint
+        const { error } = await supabase
+        .from('allcomplaints')
+        .insert([
+            {
+                tracking_id,
+                name,
+                mobile,
+                category,
+                location,
+                priority,
+                description,
+                photo_url,
+                anonymous
+            }
+        ]);
+
+        if(error){
+            throw error;
+        }
+
+        document.getElementById('successMsg').innerHTML =
+        "✅ Issue submitted successfully! Tracking ID: <b>" + tracking_id + "</b>";
+
+        document.getElementById('successMsg').style.display = 'block';
+
+        document.getElementById('issueForm').reset();
+        document.getElementById('preview').style.display = 'none';
+
+    }
+    catch(err){
+        alert("Error: " + err.message);
+    }
+
+    submitBtn.textContent = "Submit Issue";
+    submitBtn.disabled = false;
+
+});
+</script>
+
 
 </body>
 </html>

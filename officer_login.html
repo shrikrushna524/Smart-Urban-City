@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AMC Officer Portal | CivicConnect Amravati</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+--primary:hsl(215,80%,45%);
+--primary-light:hsl(215,80%,55%);
+--accent:hsl(38,92%,50%);
+--accent-dark:hsl(25,90%,45%);
+--background:hsl(210,25%,98%);
+--card:white;
+--border:hsl(214,20%,90%);
+}
+
+body{
+margin:0;
+font-family:Inter;
+background:var(--background);
+}
+
+
+/* HEADER */
+/* Modern Simple Header */
+
+.header {
+
+background: rgb(124, 255, 198);
+padding: 14px 0;
+border-bottom: 1px solid hsl(214, 20%, 90%);
+box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+transition: all 0.3s ease;
+
+}
+
+.header-container {
+
+max-width: 1200px;
+margin: auto;
+padding: 0 20px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+}
+
+
+
+
+/* Logo */
+
+.logo-text {
+
+font-family: "Plus Jakarta Sans", sans-serif;
+font-size: 18px;
+font-weight: 700;
+color: hsl(215, 80%, 45%);
+
+}
+
+/* Navigation */
+
+.nav a {
+
+color: hsl(215, 15%, 45%);
+text-decoration: none;
+font-size: 14px;
+font-weight: 500;
+margin: 0 12px;
+transition: 0.2s;
+
+}
+
+.nav a:hover {
+
+color: hsl(215, 80%, 45%);
+
+}
+
+/* Login Button */
+
+.login-btn {
+
+background: hsl(215, 80%, 45%);
+color: white;
+border: none;
+padding: 8px 18px;
+border-radius: 8px;
+font-size: 14px;
+font-weight: 600;
+transition: 0.2s;
+
+}
+
+.login-btn:hover {
+
+background: hsl(215, 80%, 55%);
+transform: translateY(-1px);
+
+}
+
+.header.scrolled {
+box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+
+
+.logo{
+font-family:"Plus Jakarta Sans";
+font-weight:700;
+font-size:20px;
+color:var(--primary);
+}
+
+/* MAIN CARD */
+
+.container{
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:90vh;
+}
+
+.logo-container{
+
+text-align:center;
+margin-bottom:15px;
+
+}
+
+.amc-logo{
+
+width:80px;
+height:80px;
+object-fit:contain;
+margin-bottom:8px;
+
+}
+
+.gov-text{
+
+font-family:"Plus Jakarta Sans";
+font-weight:700;
+font-size:16px;
+color:var(--primary);
+
+}
+
+.gov-text span{
+
+display:block;
+font-size:12px;
+font-weight:500;
+color:gray;
+
+}
+
+.card{
+
+width:450px;
+background:white;
+padding:35px;
+border-radius:15px;
+box-shadow:0 15px 40px rgba(0,0,0,0.08);
+
+}
+
+.title{
+
+text-align:center;
+font-family:"Plus Jakarta Sans";
+font-size:24px;
+margin-bottom:20px;
+
+}
+
+/* FORM */
+
+.form-group{
+
+margin-bottom:15px;
+
+}
+
+label{
+
+font-size:14px;
+font-weight:600;
+
+}
+
+input,select{
+
+width:100%;
+padding:12px;
+margin-top:5px;
+border-radius:8px;
+border:1px solid var(--border);
+font-size:14px;
+
+}
+
+input:focus,select:focus{
+
+outline:none;
+border-color:var(--primary);
+
+}
+
+/* BUTTON */
+
+button{
+
+width:100%;
+padding:14px;
+margin-top:10px;
+background:linear-gradient(135deg,var(--accent),var(--accent-dark));
+border:none;
+border-radius:10px;
+color:white;
+font-weight:600;
+font-size:15px;
+cursor:pointer;
+
+}
+
+button:hover{
+
+opacity:0.9;
+
+}
+
+.switch{
+
+text-align:center;
+margin-top:15px;
+color:var(--primary);
+cursor:pointer;
+font-weight:600;
+
+}
+
+.gov-badge{
+
+background:hsl(215,80%,95%);
+color:var(--primary);
+padding:6px 10px;
+border-radius:20px;
+font-size:12px;
+display:inline-block;
+margin-bottom:15px;
+
+}
+
+/* Top Info Bar */
+
+.topbar {
+
+background: hsl(215, 30%, 96%);
+border-bottom: 1px solid hsl(214, 20%, 90%);
+font-size: 13px;
+color: hsl(215, 25%, 35%);
+
+}
+
+.topbar-container {
+
+max-width: 1200px;
+margin: auto;
+padding: 6px 20px;
+display: flex;
+align-items: center;
+gap: 10px;
+font-weight: 500;
+
+}
+
+.divider {
+
+opacity: 0.4;
+
+}
+
+/* Main Header */
+
+.header {
+
+background: white;
+padding: 14px 0;
+border-bottom: 1px solid hsl(214, 20%, 90%);
+transition: 0.3s;
+
+}
+
+.header-container {
+
+max-width: 1200px;
+margin: auto;
+padding: 0 20px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+}
+
+/* Logo */
+
+.logo-text {
+
+font-size: 18px;
+font-weight: 700;
+color: hsl(215, 80%, 45%);
+
+}
+
+/* Nav */
+
+.nav a {
+
+color: hsl(215, 15%, 45%);
+margin: 0 12px;
+font-size: 14px;
+font-weight: 500;
+transition: 0.2s;
+
+}
+
+.nav a:hover {
+
+color: hsl(215, 80%, 45%);
+
+}
+
+/* Login Button */
+
+.login-btn {
+
+background: hsl(215, 80%, 45%);
+color: white;
+padding: 8px 18px;
+border-radius: 8px;
+font-weight: 600;
+
+}
+
+.login-btn:hover {
+
+background: hsl(215, 80%, 55%);
+
+}
+
+
+
+</style>
+
+</head>
+<body>
+<div class="topbar">
+    <div class="topbar-container">
+        <span>Amravati Municipal Corporation</span>
+        <span class="divider">|</span>
+        <span>Smart City Grievance Portal</span>
+    </div>
+</div>
+<div class="header">
+
+<div class="logo">
+          CivicConnect Amravati — Officer Portal
+</div>
+
+</div>
+
+
+<div class="container">
+
+<div class="card">
+
+<div class="gov-badge">
+Authorized AMC Personnel Only
+</div>
+
+<div class="logo-container">
+    <img src="amc_logo.png" class="amc-logo">
+    <div class="gov-text">
+        Amravati Municipal Corporation  
+        <span>Official Officer Portal</span>
+    </div>
+</div>
+
+<div class="title" id="formTitle">
+Officer Login
+</div>
+
+
+<form id="form">
+
+<div id="registerFields" style="display:none;">
+
+<div class="form-group">
+<label>Officer Full Name</label>
+<input type="text" id="name">
+</div>
+
+<div class="form-group">
+<label>Official AMC Officer ID</label>
+<input type="text" id="officerId">
+</div>
+
+<div class="form-group">
+<label>Aadhaar Number</label>
+<input type="text" id="aadhaar" maxlength="12">
+</div>
+
+<div class="form-group">
+<label>Select Department</label>
+<select id="department">
+
+<option value="">Select Department</option>
+
+<option>Sanitation</option>
+<option>Road Maintenance</option>
+<option>Water Supply</option>
+<option>Electrical</option>
+<option>Encroachment</option>
+
+</select>
+</div>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Officer ID</label>
+<input type="text" id="loginId" required>
+
+</div>
+
+<div class="form-group">
+
+<label>Password</label>
+<input type="password" id="password" required>
+
+</div>
+
+<div class="form-group" id="confirmDiv" style="display:none;">
+
+<label>Confirm Password</label>
+<input type="password" id="confirmPassword">
+
+</div>
+
+
+<button type="submit">
+Continue
+</button>
+
+</form>
+
+<div class="switch" onclick="toggleForm()">
+New Officer? Register Here
+</div>
+
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+
+/* SUPABASE CONFIG */
+
+const SUPABASE_URL = "https://ibfeegtzehgspswvlyna.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImliZmVlZ3R6ZWhnc3Bzd3ZseW5hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwMTY5ODAsImV4cCI6MjA4NzU5Mjk4MH0.I5CPOxe69SQ3O0qqb5A6Zx-pAWzLmZpXyu97mt9Zvag";
+
+const supabaseClient = supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+let isRegister=false;
+
+function toggleForm(){
+
+isRegister=!isRegister;
+
+document.getElementById("registerFields").style.display=
+isRegister?"block":"none";
+
+document.getElementById("confirmDiv").style.display=
+isRegister?"block":"none";
+
+document.getElementById("formTitle").innerText=
+isRegister?"Officer Registration":"Officer Login";
+
+document.querySelector(".switch").innerText=
+isRegister?"Already Registered? Login":"New Officer? Register Here";
+
+}
+
+
+
+/* MAIN FORM SUBMIT */
+
+document.getElementById("form").onsubmit = async function(e){
+
+e.preventDefault();
+
+if(isRegister){
+
+await registerOfficer();
+
+}else{
+
+await loginOfficer();
+
+}
+
+};
+
+
+
+/* REGISTER OFFICER */
+
+async function registerOfficer(){
+
+let name=document.getElementById("name").value;
+let officerId=document.getElementById("officerId").value;
+let aadhaar=document.getElementById("aadhaar").value;
+let dept=document.getElementById("department").value;
+let loginId=document.getElementById("loginId").value;
+let password=document.getElementById("password").value;
+let confirm=document.getElementById("confirmPassword").value;
+
+
+if(password!==confirm){
+
+alert("Passwords do not match");
+return;
+
+}
+
+if(aadhaar.length!==12){
+
+alert("Invalid Aadhaar Number");
+return;
+
+}
+
+
+/* INSERT INTO SUPABASE */
+
+const {data,error} = await supabaseClient
+.from("amc_officers")
+.insert([
+{
+name:name,
+officer_id:officerId,
+aadhaar:aadhaar,
+department:dept,
+login_id:loginId,
+password:password
+}
+]);
+
+
+if(error){
+
+alert("Officer already exists or error");
+
+return;
+
+}
+
+
+/* SAVE SESSION */
+
+localStorage.setItem("currentOfficer",
+JSON.stringify({
+name:name,
+department:dept,
+loginId:loginId
+}));
+
+
+alert("Registration Successful");
+
+
+window.location="department_dashboard.html";
+
+}
+
+
+
+/* LOGIN OFFICER */
+
+async function loginOfficer(){
+
+let loginId=document.getElementById("loginId").value;
+let password=document.getElementById("password").value;
+
+
+/* CHECK DATABASE */
+
+const {data,error} = await supabaseClient
+.from("amc_officers")
+.select("*")
+.eq("login_id",loginId)
+.eq("password",password)
+.single();
+
+
+if(error || !data){
+
+alert("Invalid Officer ID or Password");
+
+return;
+
+}
+
+
+/* SAVE SESSION */
+
+localStorage.setItem("currentOfficer",
+JSON.stringify(data)
+);
+
+
+/* REDIRECT */
+
+window.location="department_dashboard.html";
+
+}
+
+
+
+window.addEventListener("scroll", function(){
+
+document.querySelector(".header")
+.classList.toggle("scrolled", window.scrollY > 20);
+
+});
+
+</script>
+
+</body>
+</html>

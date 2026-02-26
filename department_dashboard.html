@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AMC Department Dashboard</title>
+
+<style>
+
+/* BODY */
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:linear-gradient(135deg,#020617,#0f172a,#1e293b);
+color:#e2e8f0;
+}
+
+/* HEADER */
+.header{
+background:linear-gradient(135deg,#7c3aed,#06b6d4);
+padding:12px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 4px 20px rgba(0,0,0,0.4);
+}
+
+.header-left{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.logo{
+height:42px;
+background:white;
+padding:4px;
+border-radius:6px;
+}
+
+.header-text h2{
+margin:0;
+font-size:18px;
+color:white;
+}
+
+.header-text span{
+font-size:12px;
+color:#e0f2fe;
+}
+
+.logout-btn{
+background:white;
+color:#7c3aed;
+border:none;
+padding:6px 14px;
+border-radius:20px;
+cursor:pointer;
+font-weight:bold;
+}
+
+/* CONTAINER */
+.container{
+padding:20px;
+max-width:1200px;
+margin:auto;
+}
+
+/* FILTER BUTTONS */
+.filters{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+flex-wrap:wrap;
+}
+
+.filters button{
+border:none;
+padding:6px 14px;
+border-radius:20px;
+cursor:pointer;
+font-size:12px;
+color:white;
+font-weight:bold;
+}
+
+.all{background:#334155;}
+.pending{background:#f59e0b;}
+.working{background:#06b6d4;}
+.completed{background:#10b981;}
+
+/* GRID */
+.complaint-grid{
+display:grid;
+grid-template-columns:repeat(2, 1fr);
+gap:15px;
+}
+
+@media(max-width:700px){
+.complaint-grid{
+grid-template-columns:1fr;
+}
+}
+
+/* CARD */
+.card{
+background:rgba(255,255,255,0.05);
+border-radius:12px;
+padding:15px;
+backdrop-filter:blur(10px);
+border:1px solid rgba(255,255,255,0.1);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 10px 25px rgba(0,0,0,0.5);
+}
+
+.card-header{
+display:flex;
+justify-content:space-between;
+margin-bottom:8px;
+}
+
+.card-title{
+font-weight:bold;
+font-size:15px;
+}
+
+/* BADGES */
+.badge{
+padding:4px 10px;
+border-radius:20px;
+font-size:11px;
+font-weight:bold;
+}
+
+.badge-pending{
+background:#f59e0b;
+color:black;
+}
+
+.badge-working{
+background:#06b6d4;
+color:black;
+}
+
+.badge-completed{
+background:#10b981;
+color:black;
+}
+
+.card p{
+margin:3px 0;
+font-size:13px;
+color:#cbd5e1;
+}
+
+/* BUTTON GROUP */
+.btn-group{
+margin-top:10px;
+display:flex;
+gap:6px;
+flex-wrap:wrap;
+}
+
+.btn{
+border:none;
+padding:6px 10px;
+border-radius:8px;
+cursor:pointer;
+font-size:11px;
+font-weight:bold;
+color:white;
+}
+
+.map-btn{background:#8b5cf6;}
+.work-btn{background:#06b6d4;}
+.complete-btn{background:#10b981;}
+
+.btn:hover{
+opacity:0.8;
+}
+
+/* MODAL */
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+}
+
+.modal-content{
+background:black;
+width:90%;
+height:60%;
+margin:10% auto;
+border-radius:10px;
+}
+
+.close{
+float:right;
+color:white;
+font-size:22px;
+cursor:pointer;
+padding:10px;
+}
+
+iframe{
+width:100%;
+height:90%;
+border:none;
+}
+
+</style>
+
+</head>
+<body>
+
+
+<!-- HEADER -->
+<div class="header">
+
+<div class="header-left">
+
+<img src="amc_logo.png" class="logo">
+
+<div class="header-text">
+<h2>AMC Department Dashboard</h2>
+<span>Amravati Municipal Corporation</span>
+</div>
+
+</div>
+
+<button class="logout-btn" onclick="logout()">Logout</button>
+
+</div>
+
+
+<!-- CONTENT -->
+<div class="container">
+
+<div class="filters">
+
+<button class="all" onclick="filter('all')">All</button>
+
+<button class="pending" onclick="filter('Pending')">Pending</button>
+
+<button class="working" onclick="filter('Working')">Working</button>
+
+<button class="completed" onclick="filter('Completed')">Completed</button>
+
+</div>
+
+
+<div class="complaint-grid" id="complaintGrid">
+
+</div>
+
+</div>
+
+
+<!-- MAP MODAL -->
+<div class="modal" id="mapModal">
+
+<div class="modal-content">
+
+<span class="close" onclick="closeMap()">×</span>
+
+<iframe id="mapFrame"></iframe>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+/* SAMPLE DATA */
+let complaints = [
+
+{
+id:"AMC101",
+title:"Garbage Overflow",
+location:"Rajapeth",
+citizen:"Rahul Patil",
+date:"24 Feb 2026",
+status:"Pending",
+lat:20.9374,
+lng:77.7796
+},
+
+{
+id:"AMC102",
+title:"Streetlight Not Working",
+location:"Camp Road",
+citizen:"Sneha Joshi",
+date:"23 Feb 2026",
+status:"Working",
+lat:20.9250,
+lng:77.7640
+},
+
+{
+id:"AMC103",
+title:"Water Leakage",
+location:"Badnera",
+citizen:"Amit Deshmukh",
+date:"22 Feb 2026",
+status:"Pending",
+lat:20.8790,
+lng:77.7390
+},
+
+{
+id:"AMC104",
+title:"Road Damage",
+location:"VMV Road",
+citizen:"Pooja Kale",
+date:"21 Feb 2026",
+status:"Completed",
+lat:20.9330,
+lng:77.7510
+},
+
+{
+id:"AMC105",
+title:"Garbage Dump",
+location:"Irwin Square",
+citizen:"Mahesh Shinde",
+date:"20 Feb 2026",
+status:"Pending",
+lat:20.9345,
+lng:77.7689
+},
+
+{
+id:"AMC106",
+title:"Water Supply Issue",
+location:"Gadge Nagar",
+citizen:"Kiran Wankhede",
+date:"19 Feb 2026",
+status:"Working",
+lat:20.9280,
+lng:77.7500
+}
+
+];
+
+
+/* LOAD */
+function loadComplaints(filter="all")
+{
+
+let grid=document.getElementById("complaintGrid");
+
+grid.innerHTML="";
+
+complaints.forEach((c,index)=>{
+
+if(filter=="all" || c.status==filter){
+
+let badgeClass =
+c.status=="Pending"?"badge-pending":
+c.status=="Working"?"badge-working":
+"badge-completed";
+
+grid.innerHTML+=`
+
+<div class="card">
+
+<div class="card-header">
+
+<span class="card-title">${c.title}</span>
+
+<span class="badge ${badgeClass}">
+${c.status}
+</span>
+
+</div>
+
+<p><b>ID:</b> ${c.id}</p>
+<p><b>Location:</b> ${c.location}</p>
+<p><b>Citizen:</b> ${c.citizen}</p>
+<p><b>Date:</b> ${c.date}</p>
+
+<div class="btn-group">
+
+<button class="btn map-btn"
+onclick="viewMap(${c.lat},${c.lng})">
+Map
+</button>
+
+<button class="btn work-btn"
+onclick="updateStatus(${index},'Working')">
+Work
+</button>
+
+<button class="btn complete-btn"
+onclick="updateStatus(${index},'Completed')">
+Complete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+});
+
+}
+
+
+/* FILTER */
+function filter(status)
+{
+loadComplaints(status);
+}
+
+
+/* UPDATE STATUS */
+function updateStatus(index,status)
+{
+
+complaints[index].status=status;
+
+loadComplaints();
+
+}
+
+
+/* MAP */
+function viewMap(lat,lng)
+{
+
+document.getElementById("mapModal").style.display="block";
+
+document.getElementById("mapFrame").src=
+`https://maps.google.com/maps?q=${lat},${lng}&output=embed`;
+
+}
+
+
+function closeMap()
+{
+document.getElementById("mapModal").style.display="none";
+}
+
+
+/* LOGOUT */
+function logout()
+{
+window.location.href="officer_login.html";
+}
+
+
+/* INITIAL LOAD */
+loadComplaints();
+
+</script>
+
+</body>
+</html>
